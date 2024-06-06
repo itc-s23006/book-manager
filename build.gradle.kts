@@ -7,7 +7,7 @@ plugins {
     kotlin("plugin.spring") version "1.9.24"
 }
 
-group = "jp.ac.it_college.std.s23006"
+group = "jp.ac.it_college.std.s23006.book.manager"
 version = "0.0.1-SNAPSHOT"
 
 java {
@@ -18,10 +18,13 @@ repositories {
     mavenCentral()
 }
 
+val exposedVersion: String by project
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("org.jetbrains.exposed:exposed-spring-boot-starter:$exposedVersion")
+    implementation("org.jetbrains.exposed:exposed-kotlin-datetime:$exposedVersion")
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
