@@ -16,6 +16,12 @@ class BookRepositoryImpl : BookRepository {
         }
     }
 
+    override fun findWithRental(id: Long): BookWithRental? {
+        return transaction {
+            VBookWithRentalEntity.findById(id)?.let(::toModel)
+        }
+    }
+
     private fun toModel(entity: VBookWithRentalEntity): BookWithRental {
         val book = Book(
             entity.id.value,
