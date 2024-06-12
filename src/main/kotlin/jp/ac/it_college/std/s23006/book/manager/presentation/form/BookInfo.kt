@@ -6,9 +6,12 @@ import jp.ac.it_college.std.s23006.book.manager.domain.model.Rental
 import jp.ac.it_college.std.s23006.book.manager.infrastructure.database.dao.VBookWithRentalView
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class GetBookListResponse(val bookList: List<BookInfo>)
 
+@Serializable
 data class BookInfo(
     val id: Long,
     val title: String,
@@ -23,6 +26,7 @@ data class BookInfo(
     )
 }
 
+@Serializable
 data class GetBookDetailsResponse(
     val id: Long,
     val title: String,
@@ -39,6 +43,7 @@ data class GetBookDetailsResponse(
     )
 }
 
+@Serializable
 data class RentalInfo(
     val userId: Long,
     val rentalDateTime: LocalDateTime,
@@ -50,3 +55,19 @@ data class RentalInfo(
         model.returnDeadLine
     )
 }
+
+@Serializable
+data class RegisterBookRequest(
+    val id: Long,
+    val title: String,
+    val author: String,
+    val releaseDate: LocalDate
+)
+
+@Serializable
+data class UpdateBookRequest(
+    val id: Long,
+    val title: String?,
+    val author: String?,
+    val releaseDate: LocalDate?,
+)

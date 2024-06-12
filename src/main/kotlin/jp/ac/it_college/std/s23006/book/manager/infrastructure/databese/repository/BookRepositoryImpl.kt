@@ -4,7 +4,9 @@ import jp.ac.it_college.std.s23006.book.manager.domain.model.Book
 import jp.ac.it_college.std.s23006.book.manager.domain.model.BookWithRental
 import jp.ac.it_college.std.s23006.book.manager.domain.model.Rental
 import jp.ac.it_college.std.s23006.book.manager.domain.repository.BookRepository
+import jp.ac.it_college.std.s23006.book.manager.infrastructure.database.dao.BookEntity
 import jp.ac.it_college.std.s23006.book.manager.infrastructure.database.dao.VBookWithRentalEntity
+import kotlinx.datetime.LocalDate
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.springframework.stereotype.Repository
 
@@ -20,6 +22,28 @@ class BookRepositoryImpl : BookRepository {
         return transaction {
             VBookWithRentalEntity.findById(id)?.let(::toModel)
         }
+    }
+
+    override fun register(book: Book) {
+        transaction {
+            BookEntity.new(book.id) {
+                title = book.title
+                author = book.author
+                releaseDate = book.releaseDate
+            }
+        }
+    }
+
+    override fun update(id: Long, title: String?, author: String?, releaseDate: LocalDate?) {
+        BookEntity.findById(id)?.apply {
+            title?.let { this.title = it }
+            author?.let { this.author = it }
+            releaseDate?.let { this.releaseDate = it }
+        }
+    }
+
+    override fun delete(id: Long) {
+        BookEntity.findById(id)?.delete()
     }
 
     private fun toModel(entity: VBookWithRentalEntity): BookWithRental {
