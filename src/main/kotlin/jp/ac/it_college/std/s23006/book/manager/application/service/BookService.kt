@@ -1,9 +1,8 @@
 package jp.ac.it_college.std.s23006.book.manager.application.service
 
-import jp.ac.it_college.std.s23006.book.manager.domain.model.Book
 import jp.ac.it_college.std.s23006.book.manager.domain.model.BookWithRental
 import jp.ac.it_college.std.s23006.book.manager.domain.repository.BookRepository
-import jp.ac.it_college.std.s23006.book.manager.presentation.exception.BookNotFoundException
+import jp.ac.it_college.std.s23006.book.manager.domain.exception.BookNotFoundException
 import org.springframework.stereotype.Service
 
 @Service

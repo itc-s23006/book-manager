@@ -24,6 +24,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.bouncycastle:bcprov-jdk18on:1.78.1")
+    implementation("org.springframework.session:spring-session-data-redis")
+    runtimeOnly("redis.clients:jedis")
 //    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json")
     implementation("org.jetbrains.kotlin:kotlin-reflect")

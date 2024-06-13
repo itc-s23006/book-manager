@@ -18,6 +18,13 @@ class UserRepositoryImpl : UserRepository {
         }
     }
 
+    override fun find(id: Long): User? {
+        return transaction {
+            val entity = UserEntity.findById(id)
+            entity?.let(::toModel)
+        }
+    }
+
     private fun toModel(user: UserEntity) = User(
         id = user.id.value,
         email = user.email,
