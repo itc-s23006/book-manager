@@ -22,7 +22,9 @@ repositories {
 val exposedVersion: String by project
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
-    // implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.bouncycastle:bcprov-jdk18on:1.78.1")
+//    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.exposed:exposed-spring-boot-starter:$exposedVersion")

@@ -7,4 +7,4 @@ import org.springframework.web.bind.annotation.ResponseStatus
 class BookNotFoundException(override val message: String) : Exception()
 
 @ResponseStatus(HttpStatus.CONFLICT)
-class BookIdAlreadyUsedException(override val message: String) : Exception(message)
+class BookIdAlreadyInUseException(override val message: String) : Exception(message)
