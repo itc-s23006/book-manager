@@ -16,30 +16,49 @@ private const val RENTAL_TERM_DAYS = 14L
 class RentalService(
     private val userRepository: UserRepository,
     private val bookRepository: BookRepository,
-    private val rentalRepository: RentalRepository
+    private val rentalRepository: RentalRepository,
 ) {
     @Transactional
     fun startRental(bookId: Long, userId: Long) {
-
+        // ユーザーが存在するか確認
         userRepository.find(userId)
             ?: throw RentalStateException("該当するユーザがいません")
-
+        // 本が存在するか確認
         val book = bookRepository.findWithRental(bookId)
             ?: throw RentalStateException("該当する書籍がありません")
-
+        // 貸し出し中チェック
         if (book.isRental) {
             throw BookNotAvailableException("貸し出し中です")
         }
 
+        // 現在日時(Instant型)
         val current = Clock.System.now()
-
+        // 借りた日時(LocalDateTime型)
         val rentalDatetime = current.toLocalDateTime(TimeZone.currentSystemDefault())
-
+        // 返却期限(LocalDateTime型) → current + RENTAL_TERM_DAYS(単位:日)
         val returnDeadline = current.plus(
             RENTAL_TERM_DAYS, DateTimeUnit.DAY, TimeZone.currentSystemDefault()
         ).toLocalDateTime(TimeZone.currentSystemDefault())
         val rental = Rental(bookId, userId, rentalDatetime, returnDeadline)
 
         rentalRepository.startRental(rental)
+    }
+
+    @Transactional
+    fun endRental(bookId: Long, userId: Long) {
+        // ユーザーが存在するか確認
+        userRepository.find(userId)
+            ?: throw RentalStateException("該当するユーザがいません")
+        // 本が存在するか確認
+        val book = bookRepository.findWithRental(bookId)
+            ?: throw RentalStateException("該当する書籍がありません")
+        // 貸し出し中チェック
+        if (!book.isRental) {
+            throw RentalStateException("貸し出しされていません")
+        }
+        if (book.rental?.userId != userId) {
+            throw RentalStateException("他のユーザが借りている書籍です")
+        }
+        rentalRepository.endRental(bookId)
     }
 }
